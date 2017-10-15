@@ -26,6 +26,8 @@ import java.util.Collections;
  */
 
 public class ContactsFragment extends Fragment {
+
+    private static final String TRANSITION_TAG = "transition";
     private Context context;
     private UserAdapter listAdapter;
     private RecyclerView recyclerView;
@@ -99,13 +101,8 @@ public class ContactsFragment extends Fragment {
 
     public void openContactDetailsFragment(int position, View view) {
         User user = users.get(position);
-        Bundle bundle = new Bundle();
-        String transitionName = "transition" + position;
-        bundle.putString("transitionName", transitionName);
-        bundle.putSerializable("user", user);
-        ProfileFragment profileFragment = ProfileFragment.newInstance();
-        profileFragment.setArguments(bundle);
-        ((MainActivity) context).showFragmentWithTransition(ContactsFragment.this, profileFragment, view, transitionName);
+        String transitionName = TRANSITION_TAG + position;
+        ((MainActivity) context).showFragmentWithTransition(ContactsFragment.this, user, view, transitionName);
     }
 
     private ArrayList<User> getData() {

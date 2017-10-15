@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.alin_.animationht.R;
+import com.example.alin_.animationht.model.User;
 import com.example.alin_.animationht.view.fragment.ContactsFragment;
+import com.example.alin_.animationht.view.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,18 +27,18 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void showFragmentWithTransition(Fragment current, Fragment newFragment, View sharedView, String sharedElementName) {
+    public void showFragmentWithTransition(Fragment current, User user, View sharedView, String sharedElementName) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
+        ProfileFragment profileFragment = ProfileFragment.newInstance(user,sharedElementName);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             current.setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
             current.setExitTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
 
-            newFragment.setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
-            newFragment.setEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
+            profileFragment.setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
+            profileFragment.setEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
         }
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, newFragment);
+        fragmentTransaction.replace(R.id.fragment_container, profileFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.addSharedElement(sharedView, sharedElementName);
         fragmentTransaction.commit();

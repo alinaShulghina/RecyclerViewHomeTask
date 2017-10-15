@@ -19,9 +19,16 @@ import com.example.alin_.animationht.model.User;
  */
 
 public class ProfileFragment extends Fragment {
+    private static final String TRANSITION_NAME_TAG = "transitionName";
+    private static final String USER_TAG = "user";
 
-    public static ProfileFragment newInstance() {
-        return new ProfileFragment();
+    public static ProfileFragment newInstance(User user, String transitionName) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(TRANSITION_NAME_TAG, transitionName);
+        bundle.putSerializable(USER_TAG, user);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -37,12 +44,12 @@ public class ProfileFragment extends Fragment {
         final TextView textView = rootView.findViewById(R.id.profileUserName);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String transitionName = bundle.getString("transitionName");
+            String transitionName = bundle.getString(TRANSITION_NAME_TAG);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 imageView.setTransitionName(transitionName);
             }
-            User user = (User) bundle.getSerializable("user");
+            User user = (User) bundle.getSerializable(USER_TAG);
             int imageId = user.getImageId();
             imageView.setImageResource(imageId);
             textView.setText(user.getName());
